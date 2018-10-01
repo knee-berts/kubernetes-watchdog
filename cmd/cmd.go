@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -34,16 +33,17 @@ var (
 	runCmd = &cobra.Command{
 		Use:   "run",
 		Short: "runs the watch dog",
-		Long: `The watch dog watches for nodes and pvcs
-										- if node is is not NotReady it will be added to watch list
-										- Watch list logic
-										-- Phase 0 being in watch list
-										-- phase 1 being in watch list for n sec
-										-- phase 2 + Powered down
-										-- phase 3: nodes Phased 2 and aged for n sec
-										example:
-										# kubernetes-disk-watchdog using kubeconfig 
-										kubernetes-disk-watchdog run --kubeconfig <path> --service-principal-client-id "" --service-principal-password ""
+		Long: `The watch dog watches for nodes. Nodes that reach not Ready status 
+		are tracked. As they age they progress into tracking, resulting into the following:
+		- if the node is powered down, disks will be detached to enable disks to be attached somewhere else
+		- if the node is powered up, it will be restarted (force-stagetwo-restart with a flag)
+		Control over timing is provided by various flags use "kubernetes-watchdog run --help" for info
+			example:
+			# kubernetes-disk-watchdog using kubeconfig 
+			kubernetes-watchdog run\
+										--kubeconfig <path> \
+										--cloud-provider azure \
+										--cloud-provider-init "client-id=<service principal client id>,client-password=<service principal password>,tenant-id=<tenant id>"
 										`,
 		Run: func(cmd *cobra.Command, args []string) {
 			//TODO: logic to switch clouds
@@ -132,7 +132,6 @@ func init() {
 		glog.Fatalf("Failed to get current hostname")
 		os.Exit(1)
 	}
-	hostName = fmt.Sprintf("%s-%d", hostName, os.Getpid())
 
 	runCmd.PersistentFlags().StringVarP(&cfg.ThisLeaderName, "leader-election-name", "", hostName, "current leader name, 'hostname' is default")
 
