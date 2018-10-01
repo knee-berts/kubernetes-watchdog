@@ -1,3 +1,24 @@
+*warning this is an early alpha project, DO NOT use in production*
+
+
+Kubernetes watchdog:
+1. Watches for not `Ready` nodes and attempts to restart them
+2. Watches for not `Ready` + `Powered Off` nodes and detaches disks to allow kubernetes to move disks to other nodes
+
+
+Build: 
+
+```
+#clone repo 
+git clone https://github.com/Azure/kubernetes-watchdog.git
+
+# build 
+go build .
+
+# run
+./kubernetes-watchdog run --logtostderr=true  -p azure -i "client-id=f2814944-4777-44ee-9917-4ab1f68b814a,client-password=Super9Complex9Password,tenant-id=72f988bf-86f1-41af-91ab-2d7cd011db47" -k ~/tmp/cairo/kubeconfig --force-stagetwo-restart=true --force-stagetwo-restart-wait=60s
+```
+ 
 
 # Contributing
 
