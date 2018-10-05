@@ -1,0 +1,33 @@
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  name: "kube-watchdog"
+  namespace: "kube-system"
+  labels:
+    tier: control-plane
+    component: kubernetes-watchdog
+spec:
+  hostNetwork: true
+  containers:
+    - name: "kubernetes-watchdog"
+      image: "khenidak/kubernetes-watchdog:v0.2"
+      command: ["/usr/bin/kubernetes-watchdog", "run"]
+      args: ["--kubeconfig=/var/lib/kubelet/kubeconfig", "--cloud-provider=azure", "--cloud-provider-init=client-id=<service principal client id>,client-password=<service principal password>,tenant-id=<tenant id>", "--logtostderr=true"]
+      volumeMounts:
+        - name: "etc-kubernetes"
+          mountPath: "/etc/kubernetes"
+        - name: "var-lib-kubelet"
+          mountPath: "/var/lib/kubelet"
+        - name: msi
+          mountPath: "/var/lib/waagent/ManagedIdentity-Settings"
+          readOnly: true
+  volumes:
+    - name: "etc-kubernetes"
+      hostPath:
+        path: "/etc/kubernetes"
+    - name: "var-lib-kubelet"
+      hostPath:
+        path: "/var/lib/kubelet"
+    - name: msi
+      hostPath:
+        path: "/var/lib/waagent/ManagedIdentity-Settings"
