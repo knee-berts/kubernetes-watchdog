@@ -1,4 +1,4 @@
-*warning this is an early alpha project, DO NOT use in production*
+* Status: Alpha *
 
 # What is This?
 
@@ -22,6 +22,7 @@ You can use docker to build and package the binary as a docker container
 ```
 make build # builds the binary #output is in ./output/
 make container # builds the container image (depends on REGISTRY and VERSION env vars)
+
 ```
 
 # Deploy
@@ -31,7 +32,10 @@ Use `./build-test-tools/deploy/static-manifest.yaml` as a static manifest (drop 
 
 > More deployment samples TBD
 
+
 ## Run Locally (for dev/test inner loop)
+
+```
 ./kubernetes-watchdog run 
 	--logtostderr=true \
 	-p azure \
@@ -39,7 +43,27 @@ Use `./build-test-tools/deploy/static-manifest.yaml` as a static manifest (drop 
 	--force-stagetwo-restart=true \ # if node stayed unready (but powered on) restart it
 	--force-stagetwo-restart-wait=60s # restart an unready-powered-on after? 
 ```
- 
+
+CLI flags: 
+```
+  -p, --cloud-provider string                  cloud provider to use (default "azure")
+  -i, --cloud-provider-init string             cloud provider free form init string
+      --force-stagetwo-restart                 force a restart for  powered on not 'Ready' node)
+  -f, --force-stagetwo-restart-wait duration   time waiting on a powered on not 'Ready' node before forcing restart) (default 5m0s)
+  -h, --help                                   help for run
+  -k, --kubeconfig string                      kubeconfig path. if empty in cluster config will be used
+      --leader-election-id string              leader election id (should be unique within cluster) (default "kbuernetes-watchdog")
+      --leader-election-name string            current leader name, 'hostname' is default (default "horus")
+  -n, --leader-election-namespace string       namespace to create leader election object, 'default' namespace is default (default "default")
+      --leader-election-ttl duration           leader election ttl (default 30s)
+  -m, --max-node-processing-time duration      max allocated time for processing a single node (wraps all arm calls)) (default 2m0s)
+  -s, --run-interval duration                  time between run. each run checks tracked node status check) (default 10s)
+  -a, --stageone-wait duration                 time for a not 'Ready' node to go into checking power status stage) (default 30s)
+  -c, --stagethree-wait duration               time waiting on a powered down not 'Ready' node before detaching disks) (default 30s)
+  -b, --stagetwo-wait duration                 time waiting on a not 'Ready' node before checking power status) (default 30s)
+  -r, --sync-interval duration                 controller cache sync (default 30s)
+      --track-masters                          if enabled masters will be tracked for failures. (use it if masters has no data disks)
+```
 
 # Contributing
 
