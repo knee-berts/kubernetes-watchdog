@@ -53,7 +53,7 @@ CLI flags:
   -h, --help                                   help for run
   -k, --kubeconfig string                      kubeconfig path. if empty in cluster config will be used
       --leader-election-id string              leader election id (should be unique within cluster) (default "kbuernetes-watchdog")
-      --leader-election-name string            current leader name, 'hostname' is default (default "horus")
+      --leader-election-name string            current leader name, 'hostname' is default (default "<<localhost name>>")
   -n, --leader-election-namespace string       namespace to create leader election object, 'default' namespace is default (default "default")
       --leader-election-ttl duration           leader election ttl (default 30s)
   -m, --max-node-processing-time duration      max allocated time for processing a single node (wraps all arm calls)) (default 2m0s)
