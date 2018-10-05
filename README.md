@@ -34,6 +34,8 @@ Use `./build-test-tools/deploy/static-manifest.yaml` as a static manifest (drop 
 
 
 ## Run Locally (for dev/test inner loop)
+
+```
 ./kubernetes-watchdog run 
 	--logtostderr=true \
 	-p azure \
