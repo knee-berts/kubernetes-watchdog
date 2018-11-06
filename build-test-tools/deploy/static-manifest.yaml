@@ -10,9 +10,9 @@ spec:
   hostNetwork: true
   containers:
     - name: "kubernetes-watchdog"
-      image: "khenidak/kubernetes-watchdog:v0.4"
+      image: "khenidak/kubernetes-watchdog:v0.5"
       command: ["/usr/bin/kubernetes-watchdog", "run"]
-      args: ["--kubeconfig=/var/lib/kubelet/kubeconfig", "--cloud-provider=azure", "--cloud-provider-init=client-id=<service principal client id>,client-password=<service principal password>,tenant-id=<tenant id>", "--logtostderr=true"]
+      args: ["--kubeconfig=/var/lib/kubelet/kubeconfig", "--cloud-provider=azure", "--cloud-provider-init=client-id:<service principal client id>,client-password:<service principal password>,tenant-id:<tenant id>", "--logtostderr=true"]
       volumeMounts:
         - name: "etc-kubernetes"
           mountPath: "/etc/kubernetes"

@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	errInvalidInitString  string = "invalid azure init string expected [x=y,a=b,n=i]"
+	errInvalidInitString  string = "invalid azure init string expected [x:y,a:b,n:i]"
 	errInvalidInitKey     string = "invalid azure init string, unidentified key %s"
 	errInvalidIdentityCfg string = "invalid azure identity configuration expected tenant-id and (client-id, client-password || use-msi || use-emsi, emsi)"
 	errBoolValueExpected  string = "bool value (true/false) expected for %s"
@@ -59,7 +59,7 @@ func NewAzureCloudHandler(init string) (watchdog.CloudHandler, error) {
 	}
 
 	for _, v := range split {
-		entrySplit := strings.Split(v, "=")
+		entrySplit := strings.Split(v, ":")
 		if 2 != len(entrySplit) {
 			return nil, fmt.Errorf(errInvalidInitString)
 		}
