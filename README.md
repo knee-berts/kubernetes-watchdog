@@ -39,7 +39,7 @@ Use `./build-test-tools/deploy/static-manifest.yaml` as a static manifest (drop 
 ./kubernetes-watchdog run 
 	--logtostderr=true \
 	-p azure \
-	-i "client-id=<service principal client id>,client-password=<servce principal password>,tenant-id=<service principal tenant id>" -k <kubeconfig path> \
+	-i "client-id:<service principal client id>,client-password:<servce principal password>,tenant-id:<service principal tenant id>" -k <kubeconfig path> \
 	--force-stagetwo-restart=true \ # if node stayed unready (but powered on) restart it
 	--force-stagetwo-restart-wait=60s # restart an unready-powered-on after? 
 ```
