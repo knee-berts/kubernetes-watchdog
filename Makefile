@@ -84,6 +84,15 @@ vnode-deploy:
 	@kubectl apply -f $(source_dir)/build-test-tools/deploy/vnode-deploy.yaml
 
 clean-deploy:
-	@kubectl delete deploy kube-watchdog -n kube-system
-	@kubectl delete secrets kube-watchdog kube-watchdog-aadclient -n kube-system
-	@rm ./config
+	@if [ "$(kubectl get deploy kube-watchdog -n kube-system --ignore-not-found)" != "kube-watchdog" ]; then \
+		kubectl delete deploy kube-watchdog -n kube-system;\
+	fi
+	@if [ "$(kubectl delete secrets kube-watchdog -n kube-system --ignore-not-found)" != "kube-watchdog" ]; then \
+		kubectl delete secrets kube-watchdog -n kube-system;\
+	fi
+	@if [ "$(kubectl delete secrets kube-watchdog-aadclient -n kube-system --ignore-not-found)" != "kube-watchdog-aadclient" ]; then \
+		kubectl delete secrets kube-watchdog-aadclient -n kube-system;\
+	fi
+	@if [ -f "$(source_dir)/config" ]; then \
+		rm ./config && exit 1;\
+	fi

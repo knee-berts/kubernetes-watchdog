@@ -27,6 +27,23 @@ make container # builds the container image (depends on REGISTRY and VERSION env
 
 # Deploy
 
+## Deploy into Virtual Node
+Follow the steps on this document to turn up an instance of AKS with Virtual Node enabled.
+https://docs.microsoft.com/en-us/azure/aks/virtual-nodes-portal
+
+Export environment variables
+```
+export AKS_GROUP=<Resource Group containing AKS object>
+export AKS_NAME=<AKS name>
+export TENANT_ID=<AAD directory id>
+export CLIENT_ID=<AKS sp client id>
+export CLIENT_PASSWORD=<AKS sp password>
+```
+Deploy Watchdog into AKS Virtual Node instance
+```
+make vnode-deploy
+```
+
 ## Deploy as Part of Control Plane
 Use `./build-test-tools/deploy/static-manifest.yaml` as a static manifest (drop in `/etc/kubernetes/manifests/` directory) after you modify `--cloud-provider-init` argument
 
