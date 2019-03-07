@@ -19,7 +19,7 @@ spec:
       hostNetwork: true
       containers:
       - name: "kubernetes-watchdog"
-        image: "njeacr.azurecr.io/kubernetes-watchdog:v0.5"
+        image: "<image repository and tag>" #<--- Edit this, for example: njeacr.azurecr.io/kubernetes-watchdog:v0.5"
         command: ["/usr/bin/kubernetes-watchdog", "run"]
         args: ["--kubeconfig=/etc/kubeconfig/config", "--leader-election-namespace=kube-system", "--cloud-provider=azure", "--cloud-provider-init=client-id:$(CLIENT_ID),client-password:$(CLIENT_PASSWORD),tenant-id:$(TENANT_ID)", "--logtostderr=true"]
         env:
@@ -55,4 +55,4 @@ spec:
       - key: azure.com/aci
         effect: NoSchedule
       imagePullSecrets:
-      - name: acr-auth
+      - name: <image secret for container registry> #<--- Edit this

@@ -39,10 +39,22 @@ export TENANT_ID=<AAD directory id>
 export CLIENT_ID=<AKS sp client id>
 export CLIENT_PASSWORD=<AKS sp password>
 ```
+Create a container registry secret. If you are using Azure Container Registry, these instructions will get you there:
+https://docs.microsoft.com/en-us/azure/container-registry/container-registry-auth-aks#access-with-kubernetes-secret
+
+Edit the image and secret name fields in this manifest file `./build-test-tools/deploy/vnode-deploy.yaml`
+
 Deploy Watchdog into AKS Virtual Node instance
 ```
 make vnode-deploy
 ```
+Test by tailing the watchdog logs, running the sample app manifest, and manualy stopping the Azure VM which is running the sample app.
+```
+kubectl logs <kube-watchodog pod name> -f
+kubectl apply -f ./build-test-tools/sample-pvc-app.yaml
+az vm stop -n <vmname> -g <resource group containing the node>
+```
+
 
 ## Deploy as Part of Control Plane
 Use `./build-test-tools/deploy/static-manifest.yaml` as a static manifest (drop in `/etc/kubernetes/manifests/` directory) after you modify `--cloud-provider-init` argument
